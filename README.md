@@ -163,6 +163,7 @@ so we can put this logic in the upper level of our suite, by doing this:
 ```
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
 	let component: AppComponent;
@@ -172,7 +173,7 @@ describe('AppComponent', () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 		  declarations: [
-			AppComponent        
+			  AppComponent
 		  ],
 		  imports: [],
 		  providers: [],
@@ -181,7 +182,7 @@ describe('AppComponent', () => {
 
 	beforeEach(() => {
 		// component fixture is created here
-		fixture = TestBed.createComponent(CredentialRecoveryComponent);
+		fixture = TestBed.createComponent(AppComponent);
 		component = fixture.componentInstance;
 		
 		// the UI change detection an ngOnInit call is triggered here
@@ -189,7 +190,7 @@ describe('AppComponent', () => {
 	});
 	
 	it('should set the count value to 0', () => {
-		expect(component.count).toBe(0, 'Count value not initialized as expected');
+		expect(component.count).withContext('Count value not initialized as expected').toBe(0);
 	});
 
 	describe('template rendered', () => {
@@ -198,27 +199,27 @@ describe('AppComponent', () => {
 		let decreaseBtn: HTMLElement;
 		
 		beforeEach(() => {
-			textDiv = fixture.debugElement.query(By.css('div#mainTxt'));
-			increaseBtn = fixture.debugElement.query(By.css('button#increaseBtn'));
-			decreaseBtn = fixture.debugElement.query(By.css('button#decreaseBtn'));
+			textDiv = fixture.debugElement.query(By.css('div#mainTxt')).nativeElement;
+			increaseBtn = fixture.debugElement.query(By.css('button#increaseBtn')).nativeElement;
+			decreaseBtn = fixture.debugElement.query(By.css('button#decreaseBtn')).nativeElement;
 		});
 		
 		it('should render the expected elements', () => {
-			expect(textDiv).not.toBeNull('Text element not rendered');
-			expect(increaseBtn).not.toBeNull('Increase button not rendered');
-			expect(decreaseBtn).not.toBeNull('Decrease button not rendered');
+			expect(textDiv).withContext('Text element not rendered').not.toBeNull();
+			expect(increaseBtn).withContext('Increase button not rendered').not.toBeNull();
+			expect(decreaseBtn).withContext('Decrease button not rendered').not.toBeNull();
 		});
 		
-		it('should show the text with count 0' () => {
-			expect(textDiv?.textContent).toContain('Number of clicks: 0', 'Text not equal to the expected one');
+		it('should show the text with count 0', () => {
+			expect(textDiv?.textContent).withContext('Text not equal to the expected one').toContain('Number of clicks: 0');
 		});
 		
 		it('should show the text \'Increase\' into the right button', () => {
-			expect(increaseBtn?.textContent).toContain('Increase', 'The text is not the expected one');
+			expect(increaseBtn?.textContent).withContext('The text is not the expected one').toContain('Increase');
 		});
 		
 		it('should show the text \'Decrease\' into the right button', () => {
-			expect(decreaseBtn?.textContent).toContain('Decrease', 'The text is not the expected one');
+			expect(decreaseBtn?.textContent).withContext('The text is not the expected one').toContain('Decrease');
 		});
 	});
 });
