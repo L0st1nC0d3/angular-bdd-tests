@@ -229,3 +229,54 @@ This is just an example of how to structure the first BDD tests, by put the ones
 we start to check the rendered elements, and their properties such as the text.
 The set of tests written until now ensures that the component is created and initialized with the variable *count* set to 0 and the
 rendered HTML elements are found in the DOM (using the **fixture.debugElement** object and then query by the css selectors) with the expected text.
+
+Let's then continue the test suite by adding some tests under the 'template rendered' one, since that these cases will happen after the rendering of the components and the relative elements:
+
+**app.component.spec.ts** (partial)
+
+```
+describe('template rendered', () => {
+		let textDiv: HTMLElement;
+		let increaseBtn: HTMLElement;
+		let decreaseBtn: HTMLElement;
+		
+		beforeEach(() => {
+			textDiv = fixture.debugElement.query(By.css('div#mainTxt')).nativeElement;
+			increaseBtn = fixture.debugElement.query(By.css('button#increaseBtn')).nativeElement;
+			decreaseBtn = fixture.debugElement.query(By.css('button#decreaseBtn')).nativeElement;
+		});
+		
+		it('should render the expected elements', () => {
+			expect(textDiv).withContext('Text element not rendered').not.toBeNull();
+			expect(increaseBtn).withContext('Increase button not rendered').not.toBeNull();
+			expect(decreaseBtn).withContext('Decrease button not rendered').not.toBeNull();
+		});
+		
+		it('should show the text with count 0', () => {
+			expect(textDiv?.textContent).withContext('Text not equal to the expected one').toContain('Number of clicks: 0');
+		});
+		
+		it('should show the text \'Increase\' into the right button', () => {
+			expect(increaseBtn?.textContent).withContext('The text is not the expected one').toContain('Increase');
+		});
+		
+		it('should show the text \'Decrease\' into the right button', () => {
+			expect(decreaseBtn?.textContent).withContext('The text is not the expected one').toContain('Decrease');
+		});
+    
+    // Here the new tests
+    describe('when the user clicks on the \'decreaseBtn\' element', () => {
+      it('should call the expected action from the template', () => {
+        spyOn(component, 'decreaseCount')
+          .and.callThrough();
+        
+        decreaseBtn.dispatchEvent(new Event('click'));
+        fixture.whenStable().then(() => {
+          expect(component.decreaseCount).withContext('Method not called as expected').toHaveBeenCalled();
+          expect(component.count).withContext('Value not equal 0 as expected').toBe(0);
+        });
+      });;
+    });
+	});
+});
+```
