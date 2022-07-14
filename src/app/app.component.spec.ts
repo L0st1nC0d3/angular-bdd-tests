@@ -108,7 +108,7 @@ describe('AppComponent', () => {
 
 			it('should render the number of clicks based on the count variable', async () => {
 				let increaseAttempt: number = 4;
-				let decreaseAttempts: number = 3;
+				let decreaseAttempts: number = 2;
 
 				for (let i = 1; i <= increaseAttempt; i++) {
 					increaseBtn.dispatchEvent(new Event('click'));
@@ -121,7 +121,7 @@ describe('AppComponent', () => {
 					expect(textDiv?.textContent).withContext('Text not equal to the expected one').toContain(`Number of clicks: ${i}`);
 				}
 				
-				for (let i = 1; i < decreaseAttempts; i++) {
+				for (let i = 1; i <= decreaseAttempts; i++) {
 					decreaseBtn.dispatchEvent(new Event('click'));
 					fixture.detectChanges();
 					await fixture.whenStable();
