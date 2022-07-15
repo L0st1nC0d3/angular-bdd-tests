@@ -28,23 +28,23 @@ We can have a deep / nested structure of tests:
 
 ```
 describe('The main component suite', () => {
-	// some teardown or arrange functions
+// some teardown or arrange functions
 
-	it('should assert something', () => {});
-	
-	// another suite related to a specific case
-	describe('when somethig happens', () => {
-		// some teardown or arrange functions
-		
-		it('should affect the state in some way', () => {});
-	});
-	
-	// another suite related to another case
-	describe('when somethig else happens', () => {
-		// some teardown or arrange functions
-		
-		it('should affect the state in another way', () => {});
-	});
+  it('should assert something', () => {});
+
+  // another suite related to a specific case
+  describe('when somethig happens', () => {
+    // some teardown or arrange functions
+
+    it('should affect the state in some way', () => {});
+  });
+
+  // another suite related to another case
+  describe('when somethig else happens', () => {
+    // some teardown or arrange functions
+
+    it('should affect the state in another way', () => {});
+  });
 });
 ```
 
